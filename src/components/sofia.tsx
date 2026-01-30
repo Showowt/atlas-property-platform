@@ -57,12 +57,12 @@ const SOFIA_KNOWLEDGE = {
   
   // Common skeptic questions
   skepticAnswers: {
-    "accuracy": "Our transaction categorization starts at 87% accuracy out of the box. After 30 days of corrections, it reaches 96%+. Every correction trains the model for YOUR specific vendors and patterns. We show confidence scores - anything below 85% is flagged for review.",
-    "reconciliation": "ATLAS doesn't replace reconciliation - it makes it 10x faster. Bank balances sync daily. The system flags discrepancies automatically. You still review and approve, but instead of hunting through statements, you're confirming pre-matched transactions.",
-    "cpaApproval": "ATLAS generates reports in standard accounting formats your CPA already knows. Schedule E mapping is direct. Trial balances follow GAAP. Most CPAs love it because clients arrive with clean, organized data instead of shoeboxes.",
-    "mistakes": "Every action in ATLAS is reversible. Miscategorize something? One click to fix, and the system learns. Delete something accidentally? 30-day recovery window. We maintain full audit trails so you can always prove what happened and when.",
-    "multipleProperties": "ATLAS was built for portfolios, not single properties. Whether you have 5 or 500 units, the architecture scales. Each property maintains its own P&L while rolling up to entity and portfolio views.",
-    "costBasis": "We track property cost basis including: purchase price, closing costs, capital improvements, and casualty losses. When you sell, ATLAS calculates adjusted basis for accurate gain/loss reporting. Always confirm with your CPA for complex situations.",
+    "accuracy": "Our transaction categorization starts at 87% accuracy out of the box. After 30 days of corrections, it reaches 96%+. Every correction trains the model for YOUR specific vendors and patterns. We show confidence scores - anything below 85% is flagged for review. Unlike your cousin who 'does taxes on the side,' we actually admit when we're not sure. 📊",
+    "reconciliation": "ATLAS doesn't replace reconciliation - it makes it 10x faster. Bank balances sync daily. The system flags discrepancies automatically. You still review and approve, but instead of hunting through statements, you're confirming pre-matched transactions. It's like having a really detail-oriented assistant who never calls in sick. 🔍",
+    "cpaApproval": "ATLAS generates reports in standard accounting formats your CPA already knows. Schedule E mapping is direct. Trial balances follow GAAP. Most CPAs love it because clients arrive with clean, organized data instead of shoeboxes. One CPA told us she cried happy tears. We put that in our testimonials. 😂",
+    "mistakes": "Every action in ATLAS is reversible. Miscategorize something? One click to fix, and the system learns. Delete something accidentally? 30-day recovery window. We maintain full audit trails so you can always prove what happened and when. Unlike that time you 'accidentally' deleted your ex's Netflix profile, this is actually reversible. 🔄",
+    "multipleProperties": "ATLAS was built for portfolios, not single properties. Whether you have 5 or 500 units, the architecture scales. Each property maintains its own P&L while rolling up to entity and portfolio views. We've seen portfolios with 1,200+ units. At that point, you should probably name your properties like Pokemon. Gotta track 'em all! 🏠",
+    "costBasis": "We track property cost basis including: purchase price, closing costs, capital improvements, and casualty losses. When you sell, ATLAS calculates adjusted basis for accurate gain/loss reporting. Always confirm with your CPA for complex situations - we're thorough, but we're not licensed to give tax advice. Yet. 📈",
   },
   
   // Feature explanations
@@ -202,17 +202,17 @@ What specific area would you like to know more about?`,
   
   // Default response
   return { 
-    content: `I'd be happy to help explain that! ATLAS is built specifically for property investors and landlords who need professional-grade accounting without the complexity.
+    content: `Great question! Let me break this down for you. ATLAS was built by landlords who got tired of their accountants sighing every tax season. 😅
 
-Here's a quick overview of what I can help you understand:
-• **Bank Integration** - How we securely sync transactions
-• **Property Attribution** - Automatic expense allocation
-• **W-9/1099 Compliance** - Never miss a vendor filing
-• **Multi-LLC Management** - Keep entities properly separated
-• **Lowe's Processing** - AI-powered statement parsing
-• **Legal Compliance** - IRS rules and audit protection
+Here's what I can explain in detail:
+• **Bank Integration** - How we securely sync transactions (spoiler: it's very secure)
+• **Property Attribution** - Automatic expense allocation (no more guessing games)
+• **W-9/1099 Compliance** - Never miss a vendor filing (the IRS sends enough letters already)
+• **Multi-LLC Management** - Keep entities properly separated (your lawyer will thank you)
+• **Lowe's Processing** - AI-powered statement parsing (because life's too short for manual data entry)
+• **Legal Compliance** - IRS rules and audit protection (sleep better at night)
 
-What would you like to dive into?`,
+What area would you like to dive into? I promise to make it as painless as possible. 🎯`,
     category: 'general'
   };
 }
@@ -223,7 +223,7 @@ export function Sofia() {
     {
       id: '1',
       role: 'sofia',
-      content: "Hi! I'm Sofia, your ATLAS assistant. I know everything about this platform - from features to IRS compliance to security architecture. Ask me anything, especially the tough questions. I'm here to help you understand exactly how ATLAS works and why it's built the way it is. 🎯",
+      content: "Hey there! 👋 I'm Sofia, your ATLAS expert. I've been trained on every IRS publication, security protocol, and feature in this platform. Think of me as the world's most patient accountant who actually enjoys explaining tax compliance. Wild, I know.\n\nAsk me anything - especially the hard questions. I love a good skeptic. 🎯",
       timestamp: new Date(),
       category: 'general'
     }
