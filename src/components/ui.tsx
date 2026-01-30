@@ -195,16 +195,16 @@ interface BadgeProps {
 
 export function Badge({ variant = 'default', children, className }: BadgeProps) {
   const variants = {
-    default: 'bg-gray-100 text-gray-800',
-    success: 'bg-green-100 text-green-800',
-    warning: 'bg-yellow-100 text-yellow-800',
-    danger: 'bg-red-100 text-red-800',
-    info: 'bg-blue-100 text-blue-800',
+    default: 'bg-gray-100 text-gray-700',
+    success: 'bg-green-100 text-green-700',
+    warning: 'bg-yellow-100 text-yellow-700',
+    danger: 'bg-red-100 text-red-700',
+    info: 'bg-blue-100 text-blue-700',
   };
   
   return (
     <span className={cn(
-      'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
+      'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium',
       variants[variant],
       className
     )}>
@@ -284,15 +284,20 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
   
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="flex min-h-screen items-center justify-center p-4">
-        <div className="fixed inset-0 bg-black/50" onClick={onClose} />
-        <div className="relative bg-white rounded-xl shadow-xl max-w-lg w-full">
+      <div className="flex min-h-screen items-end sm:items-center justify-center p-0 sm:p-4">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+        <div className="relative bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full sm:max-w-lg max-h-[90vh] overflow-y-auto">
           {title && (
-            <div className="px-6 py-4 border-b border-gray-200">
+            <div className="sticky top-0 bg-white px-5 py-4 border-b border-gray-100 flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+              <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-600 -mr-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
           )}
-          <div className="p-6">{children}</div>
+          <div className="p-5 pb-8">{children}</div>
         </div>
       </div>
     </div>
