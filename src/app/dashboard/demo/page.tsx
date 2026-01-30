@@ -7,7 +7,8 @@ import { formatCurrency } from '@/lib/utils';
 import { 
   Zap, Building2, CreditCard, FileSpreadsheet, CheckCircle2, AlertTriangle,
   ArrowRight, Sparkles, RefreshCw, Play, Trophy, Coffee, Brain, Rocket,
-  PartyPopper, Clock, Bot, Flame
+  PartyPopper, Clock, Bot, Flame, BarChart3, Settings, Users, Home,
+  FileText, Shield, Scale, Bell, PieChart, Download, Mail
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -16,6 +17,10 @@ const funFacts = [
   { icon: Brain, text: "Our AI has processed 2M+ Lowe's items. It knows a toilet flapper from a flux capacitor. 🚽", color: "text-purple-500" },
   { icon: Trophy, text: "Zero ATLAS users audited. Coincidence? Our lawyers say yes. We say 'you're welcome.' 🏆", color: "text-yellow-500" },
   { icon: Rocket, text: "ATLAS categorizes faster than you can say 'Schedule E line 5.' Go ahead, try. 🚀", color: "text-blue-500" },
+  { icon: Scale, text: "30+ reports ready for your CPA. They might actually smile at tax time. Stranger things have happened. 📊", color: "text-green-500" },
+  { icon: Bell, text: "W-9 alerts at $600? We've prevented more IRS letters than we can count. Your mailman thanks us. 📬", color: "text-red-500" },
+  { icon: Shield, text: "Bank-level encryption + SOC 2 compliance. Your data is safer than your password '123456'. Please change that. 🔐", color: "text-indigo-500" },
+  { icon: Users, text: "Track unlimited vendors. Yes, even that guy who fixed your toilet at 2am. He needs a W-9 too. 🔧", color: "text-pink-500" },
 ];
 
 function AnimatedCounter({ target, prefix = '', suffix = '' }: { target: number; prefix?: string; suffix?: string }) {
@@ -38,9 +43,18 @@ export default function DemoPage() {
   const [activeDemo, setActiveDemo] = useState<string | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const [currentFact, setCurrentFact] = useState(0);
-  const [demoComplete, setDemoComplete] = useState({ plaid: false, buildium: false, lowes: false });
+  const [demoComplete, setDemoComplete] = useState({ 
+    plaid: false, 
+    buildium: false, 
+    lowes: false,
+    reports: false,
+    w9: false,
+    settings: false
+  });
   const [savedHours, setSavedHours] = useState(0);
   const [savedMoney, setSavedMoney] = useState(0);
+  const [generatedReports, setGeneratedReports] = useState<string[]>([]);
+  const [w9Alerts, setW9Alerts] = useState<string[]>([]);
 
   const connectedBanks = state.bankAccounts.filter(b => b.connected).length;
   
@@ -84,7 +98,52 @@ export default function DemoPage() {
     triggerCelebration();
   };
 
-  const allComplete = demoComplete.plaid && demoComplete.buildium && demoComplete.lowes;
+  const handleReportsDemo = async () => {
+    setActiveDemo('reports');
+    const reports = ['Schedule E', 'P&L Summary', 'Cash Flow', 'Rent Roll'];
+    for (let i = 0; i < reports.length; i++) {
+      await new Promise(r => setTimeout(r, 600));
+      setGeneratedReports(prev => [...prev, reports[i]]);
+    }
+    await new Promise(r => setTimeout(r, 400));
+    setActiveDemo(null);
+    setDemoComplete(p => ({ ...p, reports: true }));
+    setSavedHours(p => p + 6);
+    setSavedMoney(p => p + 300);
+    triggerCelebration();
+  };
+
+  const handleW9Demo = async () => {
+    setActiveDemo('w9');
+    const vendors = [
+      { name: 'ABC Plumbing', amount: '$2,450' },
+      { name: 'Quick Electric', amount: '$1,890' },
+      { name: 'Green Lawn Care', amount: '$1,200' },
+    ];
+    for (let i = 0; i < vendors.length; i++) {
+      await new Promise(r => setTimeout(r, 700));
+      setW9Alerts(prev => [...prev, `⚠️ ${vendors[i].name} crossed $600 (YTD: ${vendors[i].amount})`]);
+    }
+    await new Promise(r => setTimeout(r, 500));
+    setActiveDemo(null);
+    setDemoComplete(p => ({ ...p, w9: true }));
+    setSavedHours(p => p + 2);
+    setSavedMoney(p => p + 100);
+    triggerCelebration();
+  };
+
+  const handleSettingsDemo = async () => {
+    setActiveDemo('settings');
+    await new Promise(r => setTimeout(r, 2000));
+    setActiveDemo(null);
+    setDemoComplete(p => ({ ...p, settings: true }));
+    setSavedHours(p => p + 1);
+    triggerCelebration();
+  };
+
+  const allComplete = demoComplete.plaid && demoComplete.buildium && demoComplete.lowes && demoComplete.reports && demoComplete.w9;
+  const completedCount = Object.values(demoComplete).filter(Boolean).length;
+  const totalDemos = Object.keys(demoComplete).length - 1; // Exclude settings from required
   const fact = funFacts[currentFact];
 
   return (
@@ -295,24 +354,135 @@ export default function DemoPage() {
           </div>
           {state.animatingSync === 'lowes' && <div className="h-2 bg-gray-100"><div className="h-full bg-gradient-to-r from-blue-400 to-indigo-500 transition-all" style={{ width: `${state.syncProgress}%` }} /></div>}
         </div>
+
+        {/* Reports Demo */}
+        <div className={`bg-white rounded-2xl border-2 shadow-sm overflow-hidden ${demoComplete.reports ? 'border-green-500' : 'border-gray-100'}`}>
+          <div className="p-5">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg ${demoComplete.reports ? 'bg-gradient-to-br from-green-400 to-green-600' : 'bg-gradient-to-br from-amber-400 to-orange-600'}`}>
+                  {demoComplete.reports ? <CheckCircle2 className="h-6 w-6 text-white" /> : <BarChart3 className="h-6 w-6 text-white" />}
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Report Generator</h3>
+                  <p className="text-sm text-gray-500">{demoComplete.reports ? '✅ 4 reports generated!' : '30+ professional reports, one click'}</p>
+                </div>
+              </div>
+              {demoComplete.reports && <Badge variant="success">Done!</Badge>}
+            </div>
+            {!demoComplete.reports && (
+              <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-3 mb-4">
+                <p className="text-sm text-amber-800">📊 Watch Schedule E, P&L, Cash Flow, and Rent Roll generate instantly. <em>Your CPA might actually smile.</em></p>
+              </div>
+            )}
+            {generatedReports.length > 0 && (
+              <div className="space-y-2 mb-4">
+                {generatedReports.map((report, i) => (
+                  <div key={i} className="flex items-center justify-between p-2 bg-green-50 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <FileText className="h-4 w-4 text-green-600" />
+                      <span className="text-sm font-medium text-green-800">{report}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Download className="h-3 w-3 text-green-600" />
+                      <span className="text-xs text-green-600">PDF</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            <Button onClick={handleReportsDemo} disabled={activeDemo !== null || demoComplete.reports} variant={demoComplete.reports ? 'primary' : 'secondary'} className={`w-full ${demoComplete.reports ? 'bg-green-600' : ''}`}>
+              {activeDemo === 'reports' ? <><RefreshCw className="h-4 w-4 mr-2 animate-spin" />Generating Reports...</> : demoComplete.reports ? <><CheckCircle2 className="h-4 w-4 mr-2" />Reports Ready!</> : <><PieChart className="h-4 w-4 mr-2" />Generate Tax Reports</>}
+            </Button>
+          </div>
+        </div>
+
+        {/* W-9 Demo */}
+        <div className={`bg-white rounded-2xl border-2 shadow-sm overflow-hidden ${demoComplete.w9 ? 'border-green-500' : 'border-gray-100'}`}>
+          <div className="p-5">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg ${demoComplete.w9 ? 'bg-gradient-to-br from-green-400 to-green-600' : 'bg-gradient-to-br from-red-400 to-rose-600'}`}>
+                  {demoComplete.w9 ? <CheckCircle2 className="h-6 w-6 text-white" /> : <AlertTriangle className="h-6 w-6 text-white" />}
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">W-9 Compliance</h3>
+                  <p className="text-sm text-gray-500">{demoComplete.w9 ? '✅ 3 vendors flagged!' : 'Never miss a 1099 again'}</p>
+                </div>
+              </div>
+              {demoComplete.w9 && <Badge variant="success">Done!</Badge>}
+            </div>
+            {!demoComplete.w9 && (
+              <div className="bg-gradient-to-r from-red-50 to-rose-50 rounded-xl p-3 mb-4">
+                <p className="text-sm text-red-800">🚨 Watch ATLAS detect vendors crossing $600 in real-time. <em>The IRS sends enough letters already.</em></p>
+              </div>
+            )}
+            {w9Alerts.length > 0 && (
+              <div className="space-y-2 mb-4">
+                {w9Alerts.map((alert, i) => (
+                  <div key={i} className="flex items-center gap-2 p-2 bg-amber-50 rounded-lg border border-amber-200">
+                    <Bell className="h-4 w-4 text-amber-600" />
+                    <span className="text-xs text-amber-800">{alert}</span>
+                  </div>
+                ))}
+                {demoComplete.w9 && (
+                  <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg border border-green-200">
+                    <Mail className="h-4 w-4 text-green-600" />
+                    <span className="text-xs text-green-800">✅ W-9 request emails auto-generated!</span>
+                  </div>
+                )}
+              </div>
+            )}
+            <Button onClick={handleW9Demo} disabled={activeDemo !== null || demoComplete.w9} variant={demoComplete.w9 ? 'primary' : 'secondary'} className={`w-full ${demoComplete.w9 ? 'bg-green-600' : ''}`}>
+              {activeDemo === 'w9' ? <><RefreshCw className="h-4 w-4 mr-2 animate-spin" />Scanning Vendors...</> : demoComplete.w9 ? <><CheckCircle2 className="h-4 w-4 mr-2" />Compliance Check Done!</> : <><Scale className="h-4 w-4 mr-2" />Run Compliance Check</>}
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Feature Showcase Grid */}
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+        <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <Sparkles className="h-5 w-5 text-purple-500" />
+          More Features to Explore
+        </h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {[
+            { icon: Home, label: 'Properties', desc: '7 units tracked', href: '/dashboard/properties' },
+            { icon: Building2, label: 'Entities', desc: '4 LLCs managed', href: '/dashboard/entities' },
+            { icon: Users, label: 'Vendors', desc: '12 contractors', href: '/dashboard/vendors' },
+            { icon: Settings, label: 'Settings', desc: '8 integrations', href: '/dashboard/settings' },
+          ].map((feature, i) => (
+            <Link key={i} href={feature.href} className="p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors group">
+              <feature.icon className="h-6 w-6 text-gray-400 group-hover:text-purple-500 mb-2 transition-colors" />
+              <p className="font-medium text-gray-900 text-sm">{feature.label}</p>
+              <p className="text-xs text-gray-500">{feature.desc}</p>
+            </Link>
+          ))}
+        </div>
       </div>
 
       {/* CTA */}
       {allComplete ? (
         <div className="bg-gradient-to-br from-green-500 via-emerald-500 to-teal-600 rounded-2xl p-6 text-center">
           <PartyPopper className="h-12 w-12 text-white mx-auto mb-3" />
-          <h3 className="text-2xl font-bold text-white mb-2">You're a Natural! 🎉</h3>
-          <p className="text-green-100 text-sm mb-4">You just did what takes most landlords a weekend. <em>Now imagine this with YOUR actual data.</em></p>
-          <Link href="/dashboard"><Button className="bg-white text-green-600 hover:bg-green-50">Explore Dashboard <ArrowRight className="h-4 w-4 ml-2" /></Button></Link>
+          <h3 className="text-2xl font-bold text-white mb-2">You're a Pro! 🎉</h3>
+          <p className="text-green-100 text-sm mb-4">You just experienced the full ATLAS platform. <em>Imagine this with YOUR actual properties.</em></p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/dashboard"><Button className="bg-white text-green-600 hover:bg-green-50">View Dashboard <ArrowRight className="h-4 w-4 ml-2" /></Button></Link>
+            <Link href="/dashboard/reports"><Button variant="secondary" className="border-white text-white hover:bg-white/10">Browse Reports</Button></Link>
+          </div>
         </div>
       ) : (
         <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 text-center">
-          <h3 className="text-xl font-bold text-white mb-2">{savedHours > 0 ? `${3 - Object.values(demoComplete).filter(Boolean).length} demos left!` : 'Try All 3 Demos ☝️'}</h3>
-          <p className="text-gray-400 text-sm mb-4">{savedHours > 0 ? 'Complete all demos to see the magic' : 'Click the buttons above to watch ATLAS work'}</p>
+          <h3 className="text-xl font-bold text-white mb-2">{savedHours > 0 ? `${5 - completedCount} demos left!` : 'Try All 5 Demos ☝️'}</h3>
+          <p className="text-gray-400 text-sm mb-4">{savedHours > 0 ? 'Complete all demos to unlock the full experience' : 'Click the buttons above to watch ATLAS work'}</p>
           <div className="flex justify-center gap-2">
-            <div className={`w-3 h-3 rounded-full ${demoComplete.plaid ? 'bg-green-500' : 'bg-gray-600'}`} />
-            <div className={`w-3 h-3 rounded-full ${demoComplete.buildium ? 'bg-green-500' : 'bg-gray-600'}`} />
-            <div className={`w-3 h-3 rounded-full ${demoComplete.lowes ? 'bg-green-500' : 'bg-gray-600'}`} />
+            <div className={`w-3 h-3 rounded-full transition-all ${demoComplete.plaid ? 'bg-green-500' : 'bg-gray-600'}`} title="Bank Sync" />
+            <div className={`w-3 h-3 rounded-full transition-all ${demoComplete.buildium ? 'bg-green-500' : 'bg-gray-600'}`} title="Rent Roll" />
+            <div className={`w-3 h-3 rounded-full transition-all ${demoComplete.lowes ? 'bg-green-500' : 'bg-gray-600'}`} title="Lowe's AI" />
+            <div className={`w-3 h-3 rounded-full transition-all ${demoComplete.reports ? 'bg-green-500' : 'bg-gray-600'}`} title="Reports" />
+            <div className={`w-3 h-3 rounded-full transition-all ${demoComplete.w9 ? 'bg-green-500' : 'bg-gray-600'}`} title="W-9" />
           </div>
         </div>
       )}

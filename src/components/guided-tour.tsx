@@ -90,6 +90,24 @@ const tourSteps: TourStep[] = [
     legalNote: 'Proper expense documentation is your first line of audit defense.'
   },
   {
+    id: 'reports',
+    title: '30+ Professional Reports',
+    content: 'Schedule E, P&L by entity, Cash Flow, Balance Sheet, Depreciation Schedules, 1099 Prep, Rent Rolls, and more. All IRS-ready formats.',
+    position: 'center',
+    icon: FileSpreadsheet,
+    category: 'feature',
+    legalNote: 'All reports follow GAAP standards. Schedule E reports map directly to IRS form line items.'
+  },
+  {
+    id: 'settings',
+    title: 'Enterprise-Grade Configuration',
+    content: '8+ integrations (Plaid, Buildium, QuickBooks, Xero, Stripe, Zapier). Full API access. Granular notification controls. Team management.',
+    position: 'center',
+    icon: Shield,
+    category: 'security',
+    legalNote: 'SOC 2 compliant infrastructure. All data encrypted at rest and in transit. Full audit logging.'
+  },
+  {
     id: 'audit-trail',
     title: 'Complete Audit Trail',
     content: 'Every action logged with timestamps. Categorization changes, edits, deletions preserved. IRS requires 3-7 years - we keep forever.',
