@@ -18,10 +18,12 @@ import {
   Menu,
   X,
   ChevronRight,
+  Zap,
 } from 'lucide-react';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'Demo', href: '/dashboard/demo', icon: Zap },
   { name: 'Properties', href: '/dashboard/properties', icon: Building2 },
   { name: 'Entities', href: '/dashboard/entities', icon: Briefcase },
   { name: 'Transactions', href: '/dashboard/transactions', icon: Receipt },
@@ -35,9 +37,9 @@ const navigation = [
 
 const bottomNavItems = [
   { name: 'Home', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'Demo', href: '/dashboard/demo', icon: Zap },
   { name: 'Properties', href: '/dashboard/properties', icon: Building2 },
-  { name: 'Transactions', href: '/dashboard/transactions', icon: Receipt },
-  { name: 'W-9', href: '/dashboard/w9', icon: AlertTriangle },
+  { name: 'Banks', href: '/dashboard/banks', icon: CreditCard },
   { name: 'More', href: '#more', icon: Menu },
 ];
 
