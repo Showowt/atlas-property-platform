@@ -19,6 +19,7 @@ import {
   X,
   ChevronRight,
   Zap,
+  Play,
 } from 'lucide-react';
 
 const navigation = [
@@ -43,7 +44,7 @@ const bottomNavItems = [
   { name: 'More', href: '#more', icon: Menu },
 ];
 
-export function Sidebar() {
+export function Sidebar({ onStartTour }: { onStartTour?: () => void }) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -90,6 +91,19 @@ export function Sidebar() {
             </Link>
           ))}
         </nav>
+        
+        {/* Tour Button */}
+        {onStartTour && (
+          <div className="px-3 pb-2">
+            <button
+              onClick={onStartTour}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-sm font-medium hover:opacity-90 transition-opacity"
+            >
+              <Play className="h-5 w-5" />
+              Start Guided Tour
+            </button>
+          </div>
+        )}
         
         <div className="p-4 border-t border-gray-800/50">
           <div className="flex items-center gap-3 px-3 py-3 rounded-xl bg-gray-800/30">

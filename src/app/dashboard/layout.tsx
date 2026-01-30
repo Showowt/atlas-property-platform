@@ -1,5 +1,7 @@
 import { Sidebar } from '@/components/sidebar';
 import { DemoProvider } from '@/lib/demo-context';
+import { Sofia } from '@/components/sofia';
+import { GuidedTour } from '@/components/guided-tour';
 
 export default function DashboardLayout({
   children,
@@ -19,6 +21,12 @@ export default function DashboardLayout({
             {children}
           </div>
         </main>
+        
+        {/* Sofia AI Assistant */}
+        <Sofia />
+        
+        {/* Guided Tour for Accountants */}
+        <GuidedTour />
       </div>
     </DemoProvider>
   );
